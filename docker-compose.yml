@@ -6,6 +6,8 @@ services:
     image: yandex/clickhouse-server
     volumes:
       - clickhouse_storage:/var/lib/clickhouse
+      - ${PWD}/config/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+      - ${PWD}/config/clickhouse/config.xml:/etc/clickhouse-server/config.xml
     expose:
       - "9000"
 

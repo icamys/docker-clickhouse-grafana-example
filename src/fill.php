@@ -49,7 +49,7 @@ for ($i = 0; $i < $recordsCount; $i++) {
         /* event_time = */  $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
         /* ipv4 = */        $faker->ipv4,
         /* domain_id = */   $faker->numberBetween(1, $maxDomainId),
-        /* advert_id = */    $faker->numberBetween(1, $maxAdvertId),
+        /* advert_id = */   $faker->numberBetween(1, $maxAdvertId),
         /* browser_id = */  $faker->numberBetween(1, $maxBrowserId),
         /* os_id = */       $faker->numberBetween(1, $maxOsId),
         /* geo = */         $faker->countryCode,
@@ -62,7 +62,7 @@ for ($i = 0; $i < $recordsCount; $i++) {
         );
 
         $db->insert($tblPlayAdv,
-            $videoValues,
+            $advValues,
             ['event_date', 'event_time', 'ipv4', 'domain_id', 'advert_id', 'browser_id', 'os_id', 'geo']
         );
 

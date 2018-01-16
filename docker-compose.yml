@@ -1,20 +1,29 @@
-version: "2"
+version: "3.4"
 services:
   clickhouse:
+    container_name: clickhouse
+    restart: always
     image: yandex/clickhouse-server
-    ports:
-    - 8123
-  grafana-storage:
-    image: busybox:latest
     volumes:
-      - /var/lib/grafana
+      - clickhouse_storage:/var/lib/clickhouse
+    expose:
+      - "9000"
+
   grafana:
+    container_name: grafana
+    restart: always
     image: qxip/clickhouse-grafana
+    volumes:
+      - grafana_storage:/var/lib/grafana
     ports:
      - "3000:3000"
-    volumes_from:
-      - grafana-storage
     environment:
       GF_INSTALL_PLUGINS: "grafana-piechart-panel,vertamedia-clickhouse-datasource"
       GF_SECURITY_ADMIN_USER: "admin"
       GF_SECURITY_ADMIN_PASSWORD: "admin"
+
+volumes:
+  grafana_storage:
+    name: grafana_storage
+  clickhouse_storage:
+    name: clickhouse_storage

@@ -1,42 +1,59 @@
-# :mag_right: ClickHouse-Grafana
+1. Start docker-compose
 
-[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=lmangani&repoName=docker-clickhouse-grafana&branch=master&pipelineName=docker-clickhouse-grafana&accountName=lmangani&type=cf-1)]( https://g.codefresh.io/repositories/lmangani/docker-clickhouse-grafana/builds?filter=trigger:build;branch:master;service:59fdf001a13744000180f5f7~docker-clickhouse-grafana) <img src="https://img.shields.io/docker/pulls/qxip/clickhouse-grafana.svg"/> 
+    ```
+    $ docker-compose up
+    ```
 
-Custom Docker container + compose providing:
-* [Clickhouse](https://github.com/yandex/ClickHouse/) Database _(latest)_
-* [Grafana](https://github.com/grafana/grafana) w/ autoprovisioned [Clickhouse Datasource](https://github.com/Vertamedia/clickhouse-grafana) _(latest)_
+2. Install composer dependencies:
 
-![image](https://user-images.githubusercontent.com/1423657/32409700-ef67af3e-c1b0-11e7-80d6-cf75172f9f38.png)
-
-#### Chart Example
-![image](https://user-images.githubusercontent.com/1423657/32409943-84bb92e4-c1b6-11e7-9a79-659e26bac45f.png)
-
-#### Table Example
-![image](https://user-images.githubusercontent.com/1423657/32409937-5d0ce874-c1b6-11e7-8f39-f333d47eb817.png)
-
-#### Pie Example
-![image](https://user-images.githubusercontent.com/1423657/32410028-19c33b66-c1b8-11e7-85a3-4e92b2c87c90.png)
-
-##### More Examples
-Full Examples are available on the project [wiki](https://github.com/lmangani/docker-clickhouse-grafana/wiki)
-
-
-## Docker Hub Image
 ```
-qxip/clickhouse-grafana
+$ composer install
 ```
 
-## Launch w/ Compose
+3. Initialize and fill clickhouse database:
+
 ```
-docker-compose up -d
+$ php src/init.php && php src/fill.php
 ```
 
-## Build Local Image
-```
-git clone https://github.com/lmangani/docker-clickhouse-grafana
-cd docker-clickhouse-grafana
+4. Go to Grafana http://127.0.0.1:3000
 
-docker build -t qxip/clickhouse-grafana:local .
+5. Create new dashboard
+
+6. Add a graph with name "GEO"
+
+7. Create 3 metrics:
+
 ```
-##### Credits
-This bundle lives thanks to the Vertamedia [clickhouse-grafana](https://github.com/Vertamedia/clickhouse-grafana) datasource plugin
+SELECT
+    $timeSeries as t,
+    count(geo) as RU
+FROM $table
+WHERE
+    $timeFilter
+    AND geo == 'RU'
+GROUP BY t
+ORDER BY t
+
+
+SELECT
+    $timeSeries as t,
+    count(geo) as UA
+FROM $table
+WHERE
+    $timeFilter
+    AND geo == 'UA'
+GROUP BY t
+
+
+SELECT
+    $timeSeries as t,
+    count(geo) as Other
+FROM $table
+WHERE
+    $timeFilter
+    AND geo != 'UA'
+    AND geo != 'RU'
+GROUP BY t
+ORDER BY t
+```

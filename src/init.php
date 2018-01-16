@@ -19,7 +19,7 @@ $db->database('default');
 $db->setTimeout(1.5);      // 1500 ms
 $db->setConnectTimeOut(5); // 5 seconds
 
-$db->write("DROP DATABASE {$dbName}");
+$db->write("DROP DATABASE IF EXISTS {$dbName}");
 
 $db->write("CREATE DATABASE IF NOT EXISTS {$dbName}");
 $db->database($dbName);

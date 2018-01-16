@@ -3,7 +3,7 @@
 include realpath(__DIR__.'/../vendor/autoload.php');
 
 $config = [
-    'host'     => '172.22.0.2',
+    'host'     => '172.22.0.2', // clickhouse server ip
     'port'     => '8123',
     'username' => 'default',
     'password' => '',

@@ -30,14 +30,14 @@ $db->write(
         event_date  Date DEFAULT toDate(event_time),
         event_time  DateTime,
         ipv4        FixedString(15),
-        partner_id  UInt32,
-        domain_id   UInt32,
-        movie_id    UInt32,
+        partner     String,
+        domain      String,
+        movie       String,
         browser_id  UInt8,
         os_id       UInt8,
         geo         FixedString(2)
     )
-    ENGINE = MergeTree(event_date, (ipv4, partner_id, domain_id, movie_id, browser_id, os_id, geo, event_time, event_date), 8192)
+    ENGINE = MergeTree(event_date, (ipv4, partner, domain, movie, browser_id, os_id, geo, event_time, event_date), 8192)
 "
 );
 
@@ -55,13 +55,13 @@ $db->write(
         event_date  Date DEFAULT toDate(event_time),
         event_time  DateTime,
         ipv4        FixedString(15),
-        domain_id   UInt32,
-        advert_id   UInt32,
+        domain      String,
+        advert      String,
         browser_id  UInt8,
         os_id       UInt8,
         geo         FixedString(2)
     )
-    ENGINE = MergeTree(event_date, (ipv4, domain_id, advert_id, browser_id, os_id, geo, event_time, event_date), 8192)
+    ENGINE = MergeTree(event_date, (ipv4, domain, advert, browser_id, os_id, geo, event_time, event_date), 8192)
 "
 );
 

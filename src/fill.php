@@ -31,14 +31,22 @@ $faker = Faker\Factory::create();
 
 $videoValues = [];
 $advValues = [];
+
+$advertisers = ['Advert A', 'Advert B', 'Advert C', 'Advert D'];
+$partners = ['Partner A', 'Partner B', 'Partner C'];
+$domains = ['Domain A', 'Domain B', 'Domain C'];
+$movies = ['Movie A', 'Movie B', 'Movie C', 'Movie D', 'Movie E'];
+
 for ($i = 0; $i < $recordsCount; $i++) {
+    $rndNum = $faker->numberBetween(0, 2);
+
     array_push($videoValues, [
         /* event_date = */  ceil(time() / $day2sec), // количество дней с начала Unix эпохи
         /* event_time = */  $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
         /* ipv4 = */        $faker->ipv4,
-        /* partner_id = */  $faker->numberBetween(1, $maxPartnerId),
-        /* domain_id = */   $faker->numberBetween(1, $maxDomainId),
-        /* movie_id = */    $faker->numberBetween(1, $maxMovieId),
+        /* partner = */     $partners[$rndNum],
+        /* domain = */      $domains[$rndNum],
+        /* movie = */       $faker->randomElement($movies),
         /* browser_id = */  $faker->numberBetween(1, $maxBrowserId),
         /* os_id = */       $faker->numberBetween(1, $maxOsId),
         /* geo = */         $faker->countryCode,
@@ -48,8 +56,8 @@ for ($i = 0; $i < $recordsCount; $i++) {
         /* event_date = */  ceil(time() / $day2sec), // количество дней с начала Unix эпохи
         /* event_time = */  $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s'),
         /* ipv4 = */        $faker->ipv4,
-        /* domain_id = */   $faker->numberBetween(1, $maxDomainId),
-        /* advert_id = */   $faker->numberBetween(1, $maxAdvertId),
+        /* domain = */      $domains[$rndNum],
+        /* advert = */      $faker->randomElement($advertisers),
         /* browser_id = */  $faker->numberBetween(1, $maxBrowserId),
         /* os_id = */       $faker->numberBetween(1, $maxOsId),
         /* geo = */         $faker->countryCode,
@@ -58,12 +66,12 @@ for ($i = 0; $i < $recordsCount; $i++) {
     if ($i > 0 && $i % 1000 == 0) {
         $db->insert($tblPlayVideo,
             $videoValues,
-            ['event_date', 'event_time', 'ipv4', 'partner_id', 'domain_id', 'movie_id', 'browser_id', 'os_id', 'geo']
+            ['event_date', 'event_time', 'ipv4', 'partner', 'domain', 'movie', 'browser_id', 'os_id', 'geo']
         );
 
         $db->insert($tblPlayAdv,
             $advValues,
-            ['event_date', 'event_time', 'ipv4', 'domain_id', 'advert_id', 'browser_id', 'os_id', 'geo']
+            ['event_date', 'event_time', 'ipv4', 'domain', 'advert', 'browser_id', 'os_id', 'geo']
         );
 
         $videoValues = [];
